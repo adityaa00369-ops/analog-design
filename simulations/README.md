@@ -1,20 +1,15 @@
-# 1.8 V simulation setup
+# Repeat the selected 1.8 V run
 
-A1 and A2 use different input and output coupling capacitors. Both connect the NMOS bulk to ground. The earlier Draft14 log reports a floating node. Connecting the bulk to ground can change the results.
+The selected circuit uses VDD = 1.8 V, RG1 = 182 kΩ, RG2 = 100 kΩ, RD = 1.4 kΩ, RS = 218 Ω, RL = 10 kΩ, CG = 123 nF, CD = 1 µF and CS = 22.10 µF. The hand sizing gives L = 0.36 µm and W = 93.6 µm; check the actual instance values in the original schematic.
 
-Put your copy of the original model card in this folder as `tsmc081.lib`. This file is needed to run the simulations. Open either netlist in LTspice. The files are set to run AC analysis. To run DC or transient, comment out the active analysis and enable the desired one. Plot `V(out)/V(in)` for AC. The load voltage is `V(out)`. Find the −3 dB points using the midband gain from the same run.
+The original ASC/netlist for this selected run and its `tsmc081.lib` model file have not been supplied here. Other circuit versions and unverified replacement netlists have been removed. A screenshot is not a complete model file.
 
-The screenshots show earlier runs. The A1/A2 files still need to be run in LTspice.
+When the original files are available:
 
-The file `draft14-historical.asc` contains the original circuit. Its model path points to `tsmc081.lib` in this folder.
+1. Check all four MOS terminals, dimensions and model name against the intended circuit.
+2. Run `.op`; save node voltages, supply current, gm, gds and device capacitance data.
+3. Run an AC sweep beginning below 100 Hz. Plot output/input voltage. Record the midband gain and both half-power crossings. Extend the sweep beyond 1 GHz as supported by the model to find the upper crossing.
+4. Run the 2 mV peak, 1 kHz input for 100 ms, with a maximum step near 2 µs. Save early cycles and late cycles. Compare the late amplitude and phase with AC analysis at 1 kHz.
+5. Record model temperature, source resistance, load capacitance and initial-condition settings. Use the same circuit for every comparison.
 
-## Schematic and log files
-
-| Run | Portable LTspice schematic | Supplied source and log |
-|---|---|---|
-| Draft14, 1.8 V | [draft14-historical.asc](draft14-historical.asc) | [Original ASC](historical-originals/Draft14.asc) · [Original log](historical-originals/Draft14.log) |
-| Draft6, 1.8 V | Screenshot evidence | [Draft6 captures](../results/evidence.md#draft6--18-v--earlier-capacitor-trials) |
-
-The portable copies use `.include "tsmc081.lib"`. The archived originals preserve the Windows paths. The earlier log reports a floating n007 and zero source and drain perimeters. The A1/A2 files connect the bulk to ground.
-
-The supplied files did not include the 180 nm model card. To run LTspice, place your original `tsmc081.lib` next to the portable schematics and netlists. The Python code uses the hand-model values listed in the design notes.
+Changing a bulk connection or device dimensions creates a new run. Do not label it as the old screenshot result.

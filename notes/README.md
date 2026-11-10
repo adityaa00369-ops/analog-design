@@ -10,7 +10,7 @@ Start with the [typed worked notes](../design-calculations.md). Use the table be
 | Capacitor values and frequency response | [19–22](#capacitor-sizing-and-frequency-response) |
 | Startup and the waveforms at each node | [23–38](#startup-and-signal-flow-from-input-to-load) |
 
-These photos show the original notes, including crossed-out work and early values. Read the typed notes for corrections. The table lists the original filenames.
+These photos preserve the author’s original hand work, including crossed-out work and early values. They are a notebook appendix, not extra verified simulation results. Some capacitor calculations predate the selected 123 nF / 1 µF circuit; do not copy those older values into the final circuit. The typed notes state the selected values and correct the arithmetic. Read the typed notes for corrections. The table lists the original filenames.
 
 ## Circuit and small-signal foundations
 
