@@ -1,4 +1,4 @@
-# Simulation setup
+# 1.8 V simulation setup
 
 The A1 and A2 netlists differ only in the input and output coupling capacitances and their title. Both tie the NMOS bulk to ground for an explicit shared-substrate configuration. The supplied Draft14 log flagged a floating node. A rerun with grounded bulk may give different results from the archived screenshots.
 
@@ -13,7 +13,6 @@ The archived `draft14-historical.asc` preserves the original wiring and settings
 | Run | Portable LTspice schematic | Supplied source and log |
 |---|---|---|
 | Draft14, 1.8 V | [draft14-historical.asc](draft14-historical.asc) | [Original ASC](historical-originals/Draft14.asc) · [Original log](historical-originals/Draft14.log) |
-| Draft9, 2 V | [draft9-historical.asc](draft9-historical.asc) | [Original ASC](historical-originals/Draft9.asc) · [Original log](historical-originals/Draft9.log) |
 | Draft6, 1.8 V | Screenshot evidence | [Draft6 captures](../results/evidence.md#draft6--18-v--earlier-capacitor-trials) |
 
 The portable copies use `.include "tsmc081.lib"`. The archived originals preserve the Windows paths. The historical logs flag a floating n007 and zero source and drain perimeters. The prepared A1/A2 netlists use a defined bulk connection.

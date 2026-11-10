@@ -1,6 +1,8 @@
-# Common-source NMOS amplifier in 180 nm CMOS
+# 1.8 V common-source NMOS amplifier in 180 nm CMOS
 
 This case study follows my 1.8 V amplifier from device sizing through hand calculations and LTspice verification. I used a 10 kΩ load and aimed for about 20 dB gain, a lower cutoff near 100 Hz, and under 1 mW of DC power.
+
+The project covers the 1.8 V Draft14 design and its earlier 1.8 V Draft6 capacitor trials. A1 and A2 compare two coupling-capacitor configurations of this 1.8 V amplifier.
 
 ## Read the project in this order
 

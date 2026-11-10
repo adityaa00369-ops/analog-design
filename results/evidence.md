@@ -1,4 +1,4 @@
-# Historical LTspice screenshots
+# 1.8 V LTspice screenshots
 
 Each link opens the original full-resolution PNG with its cursor and schematic visible. Captures are grouped by run, then ordered by operating point, AC, and transient. The source filename records which upload was used. These are historical runs. The controlled A1/A2 decks use a grounded bulk and have separate verification status.
 
@@ -35,27 +35,9 @@ Each link opens the original full-resolution PNG with its cursor and schematic v
 | [06](screenshots/draft6/06-tran-drain-current.png) | Drain resistor current | `Screenshot 2026-04-02 163317(1).png` |
 | [07](screenshots/draft6/07-tran-drain-voltage.png) | Drain voltage | `Screenshot 2026-04-02 163412(1).png` |
 
-## Draft9 · 2 V · separate historical run
-
-| Capture | What to inspect | Original upload |
-|---|---|---|
-| [01](screenshots/draft9/01-op.png) | Operating point and schematic | `e611c5ef-4321-45f0-9258-0d06a5dce7d9.png` |
-| [02](screenshots/draft9/02-ac-midband.png) | AC midband at 1 MHz | `c6e2ba66-72ca-4750-9ad7-9ad6d91c684c.png` |
-| [03](screenshots/draft9/03-ac-near-cutoff.png) | End-to-end AC cursor at 293.370 Hz | `d4c3311d-e2dd-4ccb-a2cf-97091652ceb4.png` |
-| [04](screenshots/draft9/04-ac-lower-frequency.png) | End-to-end AC cursor at 177.828 Hz | `dc6c4d72-80b0-4ffd-963e-4f33a1e0282d.png` |
-| [05](screenshots/draft9/05-ac-input-to-gate.png) | Gate-to-input ratio | `db703003-64c6-43a9-8fcf-1f90fa2a3e91.png` |
-| [06](screenshots/draft9/06-ac-gate-to-load.png) | Load-to-gate ratio | `98471ecb-7aa1-4b95-98f2-2a33c5735de7.png` |
-| [07](screenshots/draft9/07-ac-gate-to-vgs.png) | Vgs divided by gate voltage | `1a4584b3-2379-4e84-9a12-aaa29b737065.png` |
-| [08](screenshots/draft9/08-ac-vgs-to-drain.png) | Drain voltage divided by Vgs | `3a79596f-41cb-489f-a895-e75f9582b7dd.png` |
-| [09](screenshots/draft9/09-tran-input.png) | Input V(n005) | `f49524de-300d-48f1-88cc-4eaa948168c7.png` |
-| [10](screenshots/draft9/10-tran-gate.png) | Gate V(n006) | `00b126b7-2d93-497a-882d-d2488cb7eefc.png` |
-| [11](screenshots/draft9/11-tran-drain.png) | Drain V(n003) | `2bbe141a-f891-42d6-8b40-5605f2dc0c35.png` |
-| [12](screenshots/draft9/12-tran-source.png) | Source V(n008) | `5aba19aa-d3e0-4f31-bfb8-27d076eaff80.png` |
-| [13](screenshots/draft9/13-tran-load.png) | Load V(n004) | `af56d6c0-845b-474d-9e2b-cfeb180dd43a.png` |
-
 ## Reading the AC cursors
 
-Draft14 has a 19.640244 dB midband reference. The 190.694 Hz cursor reads 16.356329 dB, a drop of about 3.28 dB. Draft9 has a 16.57248 dB midband reference. The 293.370 Hz cursor reads 13.507423 dB, a drop of about 3.07 dB. Both cursor locations are close to their respective lower half-power crossings. Draft9 uses a different supply, transistor geometry, and passive values. Its results belong to a separate run.
+Draft14 has a 19.640244 dB midband reference. The 190.694 Hz cursor reads 16.356329 dB, a drop of about 3.28 dB. This cursor lies close to the lower half-power crossing. The exact half-power level is approximately 16.630 dB. The earlier Draft6 captures document capacitor trials at the same 1.8 V supply.
 
 ## Related captures
 
