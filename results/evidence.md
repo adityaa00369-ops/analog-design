@@ -1,6 +1,6 @@
 # 1.8 V LTspice screenshots
 
-Each link opens the original full-resolution PNG with its cursor and schematic visible. Captures are grouped by run, then ordered by operating point, AC, and transient. The source filename records which upload was used. These are historical runs. The controlled A1/A2 decks use a grounded bulk and have separate verification status.
+Open each link to see the full screenshot, including the circuit and cursor values. The order is DC operating point, AC response, and then transient response. These screenshots show the earlier LTspice runs. The new A1/A2 files connect the bulk to ground and still need to be run.
 
 ## Draft14 · 1.8 V · original coupling capacitors
 
@@ -42,4 +42,3 @@ Draft14 has a 19.640244 dB midband reference. The 190.694 Hz cursor reads 16.356
 ## Related captures
 
 - [Historical Python sizing terminal](screenshots/python-sizing.png)
-- [Original gm/ID plot with the transit-frequency scaling issue discussed in the design notes](screenshots/gmid-ft-original.png)

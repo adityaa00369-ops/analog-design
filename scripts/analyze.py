@@ -1,14 +1,8 @@
 """Analytical model of the 1.8 V common-source amplifier. All values are SI."""
-from pathlib import Path
-
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import eigvals
 from scipy.optimize import brentq
 
-RESULTS = Path(__file__).resolve().parents[1] / "results"
 RD, RS, RL = 1400, 218, 10000
 RG = 1 / (1 / 182000 + 1 / 100000)
 VDD, LENGTH, WIDTH = 1.8, 0.36e-6, 93.6e-6
@@ -62,14 +56,10 @@ def response(cg, cd):
 
 
 def main():
-    RESULTS.mkdir(exist_ok=True)
     print(f"ID={ID*1e6:.3f} uA; VG={VG:.6f} V; VS={RS*ID:.6f} V; "
           f"VD={VDD-RD*ID:.6f} V; VDS={VDS:.6f} V; VOV={VOV:.6f} V")
     print(f"gm={GM*1e3:.4f} mS; gds={GDS*1e6:.4f} uS; "
           f"gm/ID={GM/ID:.4f} /V; power={VDD*(ID+VDD/282000)*1e3:.4f} mW")
-    fig, (ax, time_ax) = plt.subplots(2, 1, figsize=(9, 7), layout="constrained")
-    frequency = np.geomspace(1, 1e5, 700)
-    time = np.linspace(0, 0.06, 4500)
     for name, (cg, cd) in CASES.items():
         transfer, poles, amps, gain, edge = response(cg, cd)
         steady = VM*transfer(1j*OMEGA)
@@ -78,34 +68,12 @@ def main():
               f"1 kHz={2*abs(steady)*1e3:.3f} mVpp, phase={np.angle(steady, deg=True):.3f} deg; "
               f"100 Hz={20*np.log10(abs(transfer(200j*np.pi))):.3f} dB")
         print("  poles (1/s), startup terms (mV):", list(zip(poles, np.array(amps)*1e3)))
-        wave = np.real(steady*np.exp(1j*OMEGA*time))
-        wave += sum(a*np.exp(p*time) for p, a in zip(poles, amps))
-        ax.semilogx(frequency, [20*np.log10(abs(transfer(2j*np.pi*f))) for f in frequency], label=name)
-        ax.scatter(edge, 20*np.log10(abs(gain)/np.sqrt(2)))
-        time_ax.plot(time*1e3, wave*1e3, label=name)
-    ax.set(title="Hand-model frequency response", xlabel="Frequency (Hz)", ylabel="Gain (dB)")
-    time_ax.set(title="Hand-model startup at 1 kHz", xlabel="Time (ms)", ylabel="Load voltage (mV)", xlim=(0, 16))
-    for panel in (ax, time_ax):
-        panel.grid(alpha=.25)
-        panel.legend()
-    fig.savefig(RESULTS/"analytical-response.png", dpi=180)
 
-    # Restrict this analytical plot to square-law sensitivity around the design.
-    # A continuous weak-to-strong BSIM characterization requires a separate device sweep.
-    ratios = np.linspace(5, 15, 301)
-    density = KP/2*(2/ratios)**2
-    ft = ratios*density/(2*np.pi*LENGTH*C_PER_WIDTH)
-    fig, (left, right) = plt.subplots(1, 2, figsize=(10, 4), layout="constrained")
-    left.plot(ratios, density*1e6)
-    right.plot(ratios, ft/1e9)
-    for panel, y, label in ((left, density*1e6, "ID/(W/L) (µA)"), (right, ft/1e9, "Estimated fT (GHz)")):
-        panel.scatter(15, y[-1], color="tab:orange", label="Selected bias")
-        panel.set(xlabel="gm/ID (1/V)", ylabel=label)
-        panel.grid(alpha=.25)
-        panel.legend()
-    fig.suptitle("Square-law sizing sensitivity with 180 nm model-card inputs")
-    fig.savefig(RESULTS/"gmid-ft-corrected.png", dpi=180)
-    print(f"Historical sizing estimate with consistent Cgg: fT={ft[-1]/1e9:.4f} GHz")
+    # Use the original chosen gm/ID to estimate the transistor speed.
+    chosen_gmid = 15.0
+    current_density = KP / 2 * (2 / chosen_gmid)**2
+    ft = chosen_gmid * current_density / (2 * np.pi * LENGTH * C_PER_WIDTH)
+    print(f"Historical sizing estimate with consistent Cgg: fT={ft/1e9:.4f} GHz")
 
 
 if __name__ == "__main__":

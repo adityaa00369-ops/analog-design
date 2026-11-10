@@ -1,49 +1,54 @@
 # 1.8 V common-source NMOS amplifier in 180 nm CMOS
 
-This case study follows my 1.8 V amplifier from device sizing through hand calculations and LTspice verification. I used a 10 kΩ load and aimed for about 20 dB gain, a lower cutoff near 100 Hz, and under 1 mW of DC power.
+I designed this amplifier to study gain, DC bias, frequency response, and the first few cycles after a signal starts. I used hand calculations, Python, and LTspice.
 
-The project covers the 1.8 V Draft14 design and its earlier 1.8 V Draft6 capacitor trials. A1 and A2 compare two coupling-capacitor configurations of this 1.8 V amplifier.
+The target was about 20 dB gain, a lower cutoff near 100 Hz, operation through 100 kHz, and less than 1 mW of DC power. The load is 10 kΩ.
 
-## Read the project in this order
+Draft14 is the main 1.8 V design. Draft6 shows earlier tests at the same supply voltage. A1 and A2 use different input and output coupling capacitors.
 
-| Step | What the calculation answers |
-|---|---|
-| 1. [Specifications](design-calculations.md#1-what-i-wanted-to-build) | What does the amplifier have to do, and which values did I choose? |
-| 2. [Gain and current budget](design-calculations.md#2-start-from-gain-and-power) | How much current is available after accounting for the bias divider? |
-| 3. [Transistor sizing](design-calculations.md#3-work-backward-from-gmid-to-device-size) | How does the chosen gm/ID give the overdrive and the 93.6 µm width? |
-| 4. [Resistors and DC bias](design-calculations.md#4-derive-the-resistors-and-solve-the-actual-dc-bias) | How do gain and voltage headroom set the resistor estimates? Where does the actual circuit bias? |
-| 5. [Device transit frequency](design-calculations.md#5-correct-the-device-transit-frequency-estimate) | What does the corrected fT estimate say about device speed? |
-| 6. [AC gain and cutoff](design-calculations.md#6-capacitors-and-the-combined-ac-response) | How does the KCL matrix combine the effects of the three external capacitors? |
-| 7. [Transient and settling](design-calculations.md#7-transient-calculation-and-initial-conditions) | Why are the first few cycles different, and how are the exponential coefficients calculated? |
-| 8. [Verification and trade-offs](design-calculations.md#8-verification-and-interpretation) | How closely do the calculations match LTspice, and what changes with larger coupling capacitors? |
+## Where the values come from
 
-The [typed worked notes](design-calculations.md) contain the equations and substitutions. The [handwritten appendix](notes/README.md) preserves all 38 original pages and maps them to the relevant typed sections.
+Python solves the hand-model equations for drain current and estimates the transistor transit frequency. The results depend on the assumptions written in the notes.
 
-## Results at a glance
+| Value | Result | Source |
+|---|---:|---|
+| Original drain-current target | About 556 µA | 1 mW divided by 1.8 V, before adding the bias-divider current |
+| Drain current from the hand model | 491.44 µA | Python calculation |
+| Transistor transit frequency, fT | About 3.705 GHz | Python estimate at the chosen gm/ID of 15 V⁻¹ |
+| A2 lower cutoff, fL | 83.13 Hz | Python calculation |
+| A2 lower cutoff, fL | About 102 Hz | Earlier LTspice screenshot |
+| Draft14 drain current | 457.264 µA | LTspice operating point |
+| Draft14 total DC power | About 0.835 mW | 1.8 V multiplied by the LTspice supply current |
+| Draft14 midband gain | 19.64 dB | LTspice AC analysis |
 
-| Historical LTspice result | Value |
-|---|---:|
-| Draft14 drain current | 457.264 µA |
-| Draft14 DC power | 0.835 mW |
-| Draft14 midband gain | 19.64 dB |
-| Original capacitor configuration | Lower cutoff near 200 Hz |
-| Revised capacitor configuration | Lower cutoff near 102 Hz, based on an earlier plot |
-| Original 1 kHz transient | About 38 mV peak-to-peak for 4 mV peak-to-peak input |
+The value near 102 Hz describes where the amplifier gain falls at low frequency. The transistor transit frequency describes the device's current-gain speed.
 
-Increasing the input and output coupling capacitors brought the lower cutoff closer to the target while preserving midband gain approximately. The [worked design notes](design-calculations.md) show the sizing equations, power accounting, bias comparison, matrix solution, pole and zero calculations, and startup coefficients.
+[Open the Python code](scripts/analyze.py) · [Read the Python results](results/analytical-values.txt) · [See the 102 Hz LTspice capture](results/screenshots/draft6/05-ac-revised.png)
 
-![Analytical AC and startup comparison](results/analytical-response.png)
+## Read the work in this order
 
-The figure shows analytical predictions. The [historical LTspice evidence](results/evidence.md) records the separately obtained simulator results.
+1. [Design targets and assumptions](design-calculations.md#1-what-i-wanted-to-build).
+2. [Gain and power](design-calculations.md#2-start-from-gain-and-power).
+3. [Choose gm/ID and calculate the transistor width](design-calculations.md#3-work-backward-from-gmid-to-device-size).
+4. [Calculate the resistors and DC voltages](design-calculations.md#4-derive-the-resistors-and-solve-the-actual-dc-bias).
+5. [Calculate the transistor transit frequency](design-calculations.md#5-correct-the-device-transit-frequency-estimate).
+6. [Calculate the capacitors, gain, and cutoff](design-calculations.md#6-capacitors-and-the-combined-ac-response).
+7. [Explain the first few signal cycles](design-calculations.md#7-transient-calculation-and-initial-conditions).
+8. [Compare the calculations with LTspice](design-calculations.md#8-verification-and-interpretation).
 
-![Draft14 schematic and operating point](results/screenshots/draft14/01-op.png)
+[Read the handwritten notes](notes/README.md) · [Open the full LTspice screenshots](results/evidence.md) · [Open the simulation files](simulations/README.md)
 
-[Open the full-size Draft14 operating-point screenshot](results/screenshots/draft14/01-op.png).
+![Draft14 circuit and DC operating point](results/screenshots/draft14/01-op.png)
 
-## Reproduce the calculations
+## Run the Python code
 
-Run `python -m pip install -r requirements.txt` and `python scripts/analyze.py`. The script solves DC bias, builds the nodal matrix, finds the cutoff and poles, calculates the startup terms, and generates the corrected [device sizing and transit-frequency figure](results/gmid-ft-corrected.png).
+Install the packages and run the calculation.
 
-The two [simulation decks](simulations/README.md) specify a controlled A1/A2 comparison with grounded bulk. They require the separately obtained model card. The historical results predate that controlled setup.
+```bash
+python -m pip install -r requirements.txt
+python scripts/analyze.py
+```
 
-The [original width calculation](notes/width-derivation.jpg) documents the 93.6 µm width used in Draft14.
+The code prints the DC values, gain, lower cutoff, poles, startup terms, and transit-frequency estimate.
+
+The LTspice files need your original `tsmc081.lib` model file. The A1/A2 files use a grounded bulk. They still need to be checked in LTspice.

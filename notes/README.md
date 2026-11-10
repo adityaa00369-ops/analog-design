@@ -10,7 +10,7 @@ Start with the [typed worked notes](../design-calculations.md). Use the table be
 | Capacitor values and frequency response | [19–22](#capacitor-sizing-and-frequency-response) |
 | Startup and the waveforms at each node | [23–38](#startup-and-signal-flow-from-input-to-load) |
 
-The photos preserve the original handwriting, including draft values, crossed-out steps, and approximate equations. The typed calculations carry the checked results. The filenames in the table preserve the upload references.
+These photos show the original notes, including crossed-out work and early values. Read the typed notes for corrections. The table lists the original filenames.
 
 ## Circuit and small-signal foundations
 
@@ -78,8 +78,8 @@ The photos preserve the original handwriting, including draft values, crossed-ou
 ## Where the calculations were corrected
 
 - The power-budget calculation includes the gate-divider current.
-- The width derivation distinguishes the original Python estimate from the rounded width used in LTspice.
+- The width calculation explains why the earlier Python estimate and the width used in LTspice differ.
 - The output coupling capacitor sees the sum of the resistances on its two sides in the isolated network.
 - The cutoff calculation uses the combined nodal response, including the source bypass pole and zero.
-- Startup coefficients use the capacitor initial conditions. The plotted sign of capacitor current depends on its reference direction.
+- The starting capacitor voltages set the extra terms seen during startup. The current sign depends on the chosen current direction.
 - The small-signal output resistance connects between drain and source. The corrected analysis states when the source is approximated as AC ground.
