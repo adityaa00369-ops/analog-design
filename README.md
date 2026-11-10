@@ -15,7 +15,7 @@ Python solves the hand-model equations for drain current and estimates the trans
 | Original drain-current target | About 556 µA | 1 mW divided by 1.8 V, before adding the bias-divider current |
 | Drain current from the hand model | 491.44 µA | Python calculation |
 | Transistor transit frequency, fT | About 3.705 GHz | Python estimate at the chosen gm/ID of 15 V⁻¹ |
-| A2 lower cutoff, fL | 83.13 Hz | Python calculation |
+| A2 lower cutoff, fL | 83.13 Hz | hand calculation and spice simulation results |
 | A2 lower cutoff, fL | About 102 Hz | Earlier LTspice screenshot |
 | Draft14 drain current | 457.264 µA | LTspice operating point |
 | Draft14 total DC power | About 0.835 mW | 1.8 V multiplied by the LTspice supply current |
