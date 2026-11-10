@@ -1,0 +1,24 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\adity\OneDrive\Documents\LTspice\Draft14.net
+Start Time: Wed Nov  4 23:01:31 2026
+Ignoring BSIM parameter XL
+Ignoring BSIM parameter XW
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+Compress1stOrder = true
+Compress2ndOrder = true
+WARNING: Node n007 is floating.
+
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 0.102 seconds.
+
+Files loaded:
+C:\Users\adity\OneDrive\Documents\LTspice\Draft14.net
+C:\Users\adity\AppData\Local\LTspice\lib\cmp\standard.mos
+C:\Users\adity\OneDrive\Documents\LTspice\tsmc081.lib
+

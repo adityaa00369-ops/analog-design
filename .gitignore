@@ -1,0 +1,5 @@
+simulations/tsmc081.lib
+*.raw
+*.log
+!simulations/historical-originals/*.log
+__pycache__/
