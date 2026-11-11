@@ -1,37 +1,46 @@
 # 1.8 V common-source NMOS amplifier
 
-This project explains one amplifier using hand calculations and LTspice. The goals are about 20 dB voltage gain, a lower cutoff near 100 Hz, operation through 100 kHz, and DC power below 1 mW with a 10 kΩ load.
+This project follows one amplifier through two capacitor versions. I used hand calculations and LTspice to study DC bias, voltage gain, frequency response and startup.
 
-Only the 1.8 V circuit with **CG = 123 nF, CD = 1 µF and CS = 22.10 µF** is used for the simulation results here.
+The goals were about 20 dB gain, a lower cutoff near 100 Hz, operation through 100 kHz and DC power below 1 mW with a 10 kΩ load.
+
+## Why there are two versions
+
+The first capacitor values gave a lower cutoff around 200 Hz. I increased the coupling capacitors to reduce signal loss near 100 Hz. This moved the lower cutoff toward 100 Hz. The larger capacitors can also make startup slower.
+
+| Part | Version 1 | Version 2 |
+|---|---:|---:|
+| Input capacitor CG | 24.7 nF | 123 nF |
+| Output capacitor CD | 140.1 nF | 1 µF |
+| Source capacitor CS | 22.10 µF | 22.10 µF |
+| Supply, resistors and transistor size | Same 1.8 V amplifier | Same |
+
+The DC calculation is common to both versions because ideal capacitors carry no steady DC current. The AC and startup calculations are different.
 
 ## Read in this order
 
-1. [Worked notes: targets, assumptions, sizing, bias, frequency response and startup](design-calculations.md).
-2. [Original handwritten pages, grouped by topic](notes/README.md). The typed notes explain corrections and give the reading order.
-3. [Full DC and AC screenshots](results/evidence.md).
-4. [Python calculation code](scripts/analyze.py) and [its output](results/analytical-values.txt).
-5. [Files still needed to repeat the LTspice run](simulations/README.md).
+1. [Design targets, assumptions, transistor sizing and DC calculations](design-calculations.md).
+2. [Why I changed the capacitors: small steps, equations and comparison](capacitor-revision.md).
+3. [Frequency response, matrix equations and startup derivation](design-calculations.md#6-what-the-three-frequencies-mean). The numerical AC example in that file uses Version 2.
+4. [Original handwritten notes in topic order](notes/README.md).
+5. [Full simulation screenshots in order](results/evidence.md).
+6. [Simulation files and the bulk-connection check](simulations/README.md).
 
-## Results and their sources
+## What the results show
 
-| Quantity | Value | Source |
-|---|---:|---|
-| Drain current | 457.264 µA | Selected LTspice operating point |
-| Supply power | 0.8346 mW | 1.8 V × 463.647 µA from the same operating point |
-| Midband voltage gain | About 19.6 dB | Selected AC plot |
-| Lower cutoff reported by the author | About 102 Hz | Hand calculation; complete substitution still needs to be added |
-| AC cursor near lower cutoff | 101.83585 Hz, 16.472597 dB | Selected screenshot; not an exact half-power measurement |
-| Upper cutoff | Not reached in the shown 1 GHz sweep | Selected AC plot |
+Both historical operating-point screenshots show about 457.264 µA drain current. Total supply power is about 0.835 mW. Midband gain is about 19.6 dB. The capacitor revision improves low-frequency transmission; it does not create extra midband gain.
 
-**102 Hz is a lower cutoff, not the transistor transit frequency fT.** It was reported as a hand result, not a Python result. The separate simplified calculation gives 83.13 Hz; the notes explain why we cannot claim an exact match yet. They also explain why gain falls at both frequency edges and why the circuit does not suddenly stop responding at fT.
+The author reports a hand-calculated lower cutoff near 102 Hz for Version 2. This is **fL, not transistor transit frequency fT**, and it is not attributed to Python. The separate simplified model gives 83.13 Hz for Version 2 and 183.98 Hz for Version 1. These differences are stated openly. The complete 102 Hz hand substitution still needs to be added.
 
-![Selected circuit and DC operating point](results/screenshots/draft6/03-op-revised.png)
+The original uploaded Draft6 schematic has an unconnected bulk terminal. Correcting that is a separate task. Historical screenshots are kept as original evidence, not presented as verified results of a corrected circuit.
 
-## Run the calculation
+## Python calculation
+
+[Open the code](scripts/analyze.py) · [Read the numerical output](results/analytical-values.txt)
 
 ```bash
 python -m pip install -r requirements.txt
 python scripts/analyze.py
 ```
 
-The code checks the written hand-model equations. It does not run the 180 nm BSIM model. Its results are estimates, not extra LTspice measurements. The original model file and original schematic for this selected run are still needed.
+The code evaluates the hand-model equations for both capacitor versions. It does not run the BSIM model. No generated design graphs are included.

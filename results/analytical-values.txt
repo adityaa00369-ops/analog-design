@@ -1,5 +1,7 @@
 ID=491.441 uA; VG=0.638298 V; VS=0.107134 V; VD=1.111982 V; VDS=1.004848 V; VOV=0.124964 V
 gm=7.8653 mS; gds=23.3966 uS; gm/ID=16.0046 /V; power=0.8961 mW
-Selected 1.8 V hand model: gain=19.4528 dB; fL=83.125 Hz; 1 kHz=37.421 mVpp, phase=-174.897 deg; 100 Hz=17.144 dB
+Version 1: gain=19.4528 dB; fL=183.976 Hz; 1 kHz=37.062 mVpp, phase=-165.434 deg; 100 Hz=11.385 dB
+  poles (1/s), startup terms (mV): [(np.float64(-638.6667194618384), np.float64(4781.938070392282)), (np.float64(-627.3079147573075), np.float64(-5201.94002531621)), (np.float64(-544.4510681291168), np.float64(437.93719483544834))]
+Version 2: gain=19.4528 dB; fL=83.125 Hz; 1 kHz=37.421 mVpp, phase=-174.897 deg; 100 Hz=17.144 dB
   poles (1/s), startup terms (mV): [(np.float64(-554.8053330217041), np.float64(17.92519390940882)), (np.float64(-125.97158938622353), np.float64(11.7887589709041)), (np.float64(-87.80730508656724), np.float64(-11.077466443135775))]
 Historical sizing estimate with consistent Cgg: fT=3.7049 GHz

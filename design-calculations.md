@@ -1,6 +1,6 @@
 # 1.8 V common-source amplifier — worked design notes
 
-Read Sections 1–10 in order. They show the design choices, calculations, and simulation results. Links lead to the matching [handwritten notes](notes/README.md). Some notebook values have been corrected in the typed notes.
+Read Sections 1–5 first. Then read [why the capacitors changed](capacitor-revision.md), followed by Sections 6–10. The numerical AC and startup example below uses Version 2; the linked comparison covers both versions. They show the design choices, calculations, and simulation results. Links lead to the matching [handwritten notes](notes/README.md). Some notebook values have been corrected in the typed notes.
 
 ## 1. What I wanted to build
 
@@ -15,7 +15,7 @@ The input coupling capacitor lets the signal reach the gate while the gate divid
 | Design choice | A study target, bias choice, or selected component value |
 | Hand model | Square-law current equation with an estimated λ, then a small-signal calculation |
 | Historical LTspice | Results from the earlier screenshots, circuit files, and logs |
-| Selected circuit | 1.8 V, CG = 123 nF, CD = 1 µF, CS = 22.10 µF. Only screenshots of this circuit are used as results. |
+| Two capacitor versions | Version 1 uses CG = 24.7 nF and CD = 140.1 nF. Version 2 uses CG = 123 nF and CD = 1 µF. Both use CS = 22.10 µF. |
 | NMOS model | CMOSN BSIM3 v3.1 Level 49, with a nominal temperature of 27 °C. LTspice needs the original model file. |
 | Hand threshold | 0.3662 V card parameter plus the historical script’s assumed 40 mV offset. The 40 mV is an assumption in the earlier code. It has not been checked against the model at this bias. |
 | Hand mobility and CLM | μₙCₒₓ ≈ 230.5 µA/V² and λ = 0.05 V⁻¹. λ is an estimate. |
@@ -105,7 +105,7 @@ $$r_o=1/g_{ds}\approx42.74\,\mathrm{k\Omega},\qquad g_m/I_D\approx16.00\,\mathrm
 | Total DC power | 0.8961 mW | 0.8346 mW |
 | Midband gain magnitude | 19.45 dB | About 19.6 dB, read from the plot |
 
-Python gives 491.44 µA from the hand-model equation. This is 7.5% above the earlier LTspice result of 457.264 µA. The LTspice current is 17.8% below the original 556 µA target. The screenshot does not establish the bulk connection. A voltage printed for n007 alone does not prove that this terminal has the intended connection. Check the original netlist before making an exact model comparison. Use the simulated $g_m$ to calculate the BSIM $g_m/I_D$.
+Python gives 491.44 µA from the hand-model equation. This is 7.5% above the earlier LTspice result of 457.264 µA. The LTspice current is 17.8% below the original 556 µA target. The uploaded Draft6 schematic has an unconnected bulk terminal. A printed voltage for n007 does not prove a correct connection. The hand model omits body effect, so it is not an exact model of this historical circuit. A bulk-grounded rerun needs body effect included where the source moves. Use the simulated $g_m$ to calculate the BSIM $g_m/I_D$.
 
 [Python code for these calculations](scripts/analyze.py)
 
@@ -351,6 +351,6 @@ For one term, $e^{-5}=0.00674$. After five time constants, 0.674% of that term r
 
 The hand method explains the inverting gain, DC bias, low-frequency loss and startup. The selected simulation supports a gain near 20 dB and power below 1 mW. The hand-model DC current differs from the screenshot, and the independently calculated lower cutoff differs from the author's reported 102 Hz result. These differences remain visible so the report can be checked.
 
-Next, add the original selected ASC/netlist, the original model card, the complete 102 Hz hand substitution, the MOS small-signal data, a sweep reaching the upper −3 dB crossing, and a 100 ms transient of this same circuit. Do not combine results from another capacitor set.
+The original Draft6 ASC and model text have now been supplied. Next add the complete 102 Hz hand substitution, extract the MOS small-signal data, and rerun both versions with the same defined bulk connection. Use separate AC and transient results for each capacitor set. Later high-frequency screenshots show a cursor near 1.93 GHz for Version 2, but the exact half-power crossing and corrected-circuit result still need checking.
 
 For background on transistor current gain and frequency response, see [Boris Murmann's open circuit notes](https://bmurmann.github.io/COCOA/contents/partI/partI.3.html). The equations above state their own simplifications; they do not replace the missing model data.

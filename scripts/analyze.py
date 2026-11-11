@@ -23,7 +23,7 @@ GDS = LAMBDA*ID/(1+LAMBDA*VDS)
 C_PER_WIDTH = 2/3 * (3.9*8.8541878128e-12/4.1e-9)*LENGTH + 2*8.23e-10
 OMEGA = 2*np.pi*1000
 VM = 0.002
-CASES = {"Selected 1.8 V hand model": (123e-9, 1e-6)}
+CASES = {"Version 1": (24.7e-9, 140.1e-9), "Version 2": (123e-9, 1e-6)}
 
 
 def response(cg, cd):
